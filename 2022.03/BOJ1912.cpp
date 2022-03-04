@@ -18,13 +18,18 @@ int main(void) {
 	bp[0] = v[0];
 
 	for (int i = 1; i < n; i++) {
-		if (v[i] >= v[i - 1]) {
-			bp[i] = v[i] + v[i - 1];
-		}
-		else {
-			bp[i] = v[i];
-		}
+		bp[i] = max(bp[i - 1] + v[i], v[i]);
 	}
+
+	/*
+	for (int i = 0; i < n; i++) {
+		cout << bp[i] << " ";
+	}	
+		cout << "\n";
+	*/
+	
+
+
 
 	int m = *max_element(bp.begin(), bp.end());
 
