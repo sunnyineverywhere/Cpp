@@ -13,3 +13,6 @@
 - 시작 노드으로부터 가까운 노드부터 먼저 방문하고, 멀리 떨어져 있는 노드을 나중에 방문한다
 - Queue를 이용해서 구현 → 노드를 차례대로 저장한 후 꺼내기 때문에
 
+## BFS 문제
+### [숫자판 점프](https://github.com/sunnyineverywhere/Cpp/blob/main/E-PPER/BOJ2210.cpp)
+
