@@ -4,47 +4,43 @@
 #include <queue>
 using namespace std;
 
-int maze[101][101];
-bool visited[101][101];
-int length[101][101];
 int n, m;
+int maze[101][101] = { 0 };
+bool visited[101][101];
+int length[101][101] = { 0 };
 
-int dx[4] = { 1, 0, -1, 0 };
-int dy[4] = { 0, 1, 0, -1 };
+
+int dx[4] = { 0, 1, 0, -1 };
+int dy[4] = { -1, 0, 1, 0 };
 
 void bfs(int x, int y) {
 
 	queue<pair<int, int>> q;
-	q.push(make_pair(x, y));
-	length[x][y] = 1;
+	q.push({ x, y });
+	length[x][y]++;
 	visited[x][y] = true;
 
 	while(!q.empty()) {
-		int x = q.front().first;
-			int y = q.front().second;
+		int xx = q.front().first;
+		int yy = q.front().second;
 		q.pop();
-
+		
 		for (int i = 0; i < 4; i++) {
-			int nx = x + dx[i];
-			int ny = y + dy[i];
+			int nx = xx + dx[i];
+			int ny = yy + dy[i];
 
 
-			if (nx >= 0 && dy >= 0 && nx < n && ny < m && maze[nx][ny] == 1 && visited[nx][ny] == false) {
-				length[nx][ny] = length[y][x] + 1;
+			if (nx >= 0 && ny >= 0 && nx < n && ny < m && maze[nx][ny] == 1 && !visited[nx][ny]) {
 				visited[nx][ny] = true;
-				q.push(make_pair(nx, ny));
+				q.push({nx, ny});
+				length[nx][ny] = length[xx][yy] + 1;
 			}
 		}
 	}
-
-
 }
 
 int main(void) {
 	
-	ios::sync_with_stdio(0);
-	cin.tie(0);
-	cout.tie(0);
 	cin >> n >> m;
 
 	for (int i = 0; i < n; i++) {
@@ -52,6 +48,8 @@ int main(void) {
 			scanf_s("%1d", &maze[i][j]);
 		}
 	}
+
+
 
 	bfs(0, 0);
 
