@@ -8,41 +8,37 @@ using namespace std;
 vector<string> answer;
 
 void solve(string input) {
-    int len = input.length();
-    // debug
-    // cout << len;
     list<char> l;
     auto cur = l.begin();
-    for (int i = 0; i < len; i++) {
-        // 백스페이스 && 앞에 글자가 있을 때
-        if (input[i] == '-' && !l.empty()) {
-            l.pop_back();
-            continue;
-        }
 
+    for (char c : input) {
+        // 백스페이스 && 앞에 글자가 있을 때
         // 화살표 이동
-        if (input[i] == '<') {
+        if (c == '<') {
             if (cur != l.begin()) {
                 cur--;
             }
-            continue;
         }
-        else if (input[i] == '>') {
-            cur++;
-            continue;
+        else if (c == '>') {
+            if (cur != l.end()) {
+                cur++;
+            }
         }
-        
-
-        l.insert(cur, input[i]);
-        cur++;
+        else if (c == '-') {
+            if (cur != l.begin()) {
+                cur--;
+                cur = l.erase(cur);
+            }
+        }
+        else {
+            l.insert(cur, c);
+        }
     }
     string tmp = "";
     
-    while (!l.empty()) {
-        tmp.push_back(l.front());
-        l.pop_front();
+    for (char c : l) {
+        tmp.push_back(c);
     }
-
     answer.push_back(tmp);
 }
 
