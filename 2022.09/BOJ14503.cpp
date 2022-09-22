@@ -17,7 +17,7 @@ bool visited[51][51];
 int answer = 0;
 int r, c, d;
 
-int dx[4] = { -1, 0, 1, 0 };
+int dx[4] = { -1, 0, 1,0 };
 int dy[4] = { 0, 1, 0, -1 };
 
 
@@ -25,47 +25,6 @@ int dy[4] = { 0, 1, 0, -1 };
 * x, y는 좌표
 * dir은 방향
 */
-void solution() {
-
-	cout << r << " " << c << " " << d << "\n";
-	
-	for (int i = 0; i < 4; i++) {
-		int nd = (d + 3 - i) % 4;
-		int nx = r + dx[nd];
-		int ny = c + dx[nd];
-
-		// 왼쪽 방향에 청소 공간 X -> 회전
-		if (nx < 0 || nx >= n || ny < 0 || ny >= m || board[nx][ny] == 1) {
-			continue;
-		}
-
-		if (board[nx][ny] == 0 && !visited[nx][ny]) {
-			visited[nx][ny] = 1;
-			r = nx;
-			c = ny;
-			d = nd;
-			answer++;
-			solution();
-		}
-	}
-
-	int back_dir = d > 1 ? d - 2 : d + 2;
-	int back_x = r + dx[back_dir];
-	int back_y = c + dy[back_dir];
-	// 네방향 청소 완 + 벽
-	if(back_x >= 0 || back_x <= n || back_y >= 0 || back_y <= m){
-		if (board[back_x][back_y] == 0) {
-			r = back_x;
-			c = back_y;
-			solution();
-		}
-		else {
-			cout << answer;
-			exit(0);
-		}
-	}
-
-}
 
 int main(void) {
 	cin >> n >> m;
@@ -78,10 +37,42 @@ int main(void) {
 		}
 	}
 
-	visited[r][c] = 1;
-	answer++;
+	
 
-	solution();
+	while (1) {
+
+		if (!visited[r][c]) {
+			visited[r][c] = true;
+			answer++;
+		}
+
+		// cout << r << " " << c << " " << d << " " << answer << "\n";
+
+		bool chk = false;
+		for (int i = 0; i < 4; i++) {
+
+			d = (d + 3) % 4;
+			int nx = r + dx[d];
+			int ny = c + dy[d];
+
+			
+			if (board[nx][ny] == 0 && !visited[nx][ny]) {
+				r = nx;
+				c = ny;
+				chk = true;
+				break;
+			}
+		}
+		if (!chk) {
+			int back_dir = d > 1 ? d - 2 : d + 2;
+			if (board[r + dx[back_dir]][c + dy[back_dir]]) {
+				break;
+			}
+			r += dx[back_dir];
+			c += dy[back_dir];
+		}
+	}
+		cout << answer;
 
 	return 0;
 }
