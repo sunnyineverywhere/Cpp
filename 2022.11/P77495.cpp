@@ -1,5 +1,7 @@
 #include <string>
 #include <vector>
+#include <algorithm>
+#include <iostream>
 
 using namespace std;
 
@@ -22,23 +24,53 @@ vector<int> solution(int rows, int columns, vector<vector<int>> queries) {
         }
     }
     
-    // 변경사항 저장을 위한 2차원배열
-    vector<vector<int>> tmp = array;
     
     // queries에서 추출
     for(int i = 0; i < queries.size(); i++){
         int x1 = queries[i][0]; int y1 = queries[i][1];
         int x2 = queries[i][2]; int y2 = queries[i][3];
         
-        // 시작점 저장
-        int tmp = array[x1][y1];
-        int tmp2 = 변경 위한 변수 저장
+        // 변경사항 저장
+        vector<int> tmp;
         
-        // (x1 + 1, y1 ~ y2) 변경
-        for(int j = y1; j < y2; j++){
-            array[x1][j] = ;
-            tmp = 
+        // 이동할 배열
+        for(int i = y1; i <=y2; i++){
+            tmp.push_back(array[x1][i]);
         }
+        for(int i = x1 + 1; i <= x2; i++){
+            tmp.push_back(array[i][y2]);
+        }
+        for(int i = y2-1; i >= y1; i--){
+            tmp.push_back(array[x2][i]);
+        }
+        for(int i = x2-1; i > x1; i--){
+            tmp.push_back(array[i][y1]);
+        }
+        
+        // TEST: 변경 예정 element 출력
+        /*
+        for(int i = 0; i < tmp.size(); i++){
+            cout << tmp[i] << " ";
+        }
+        cout << "\n";
+        */
+        
+        int idx= -1;
+        for(int i = y1 +1; i <=y2; i++){
+            array[x1][i] = tmp[++idx];
+        }
+        for(int i = x1 + 1; i <= x2; i++){
+            array[i][y2] = tmp[++idx];
+        }
+        for(int i = y2-1; i >= y1; i--){
+            array[x2][i] = tmp[++idx];
+        }
+        for(int i = x2-1; i >= x1; i--){
+            array[i][y1] = tmp[++idx];
+        }
+        
+        int ans = *std::min_element(tmp.begin(), tmp.end());
+        answer.push_back(ans);
         
     }
     
